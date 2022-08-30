@@ -1,0 +1,271 @@
+
+<div class="bg-image">
+  <h1 style="text-align: right;">{{noOfEmployees}}</h1>
+<app-submit  (outputMsg)="displayOutput($event)" [data]= "idEmployee">
+</app-submit>
+
+
+
+  <img class="col-md-3" style="height: 130px; width: 250px; margin-right: auto;" 
+  src="../assets/pic.png" />
+  <h2 class="col-md-3" style="padding: 25px; font:caption;">EMPLOYEE DETAILS</h2>
+ 
+  <form   [formGroup]="candidateForm">
+    <div style="padding-left: 50px;padding-right: 50px;" class="mb-4 row">
+
+      
+
+      <div class="col-md-4">
+        <label for="fname" style="font:bold;">First Name</label>
+        <input type="text" id="fname" name="fname" placeholder="firstname" formControlName="firstname" required
+          [ngClass]="{error:candidateForm.value.firstname.length<3,errors:candidateForm.value.firstname.length>3}">
+        <small *ngIf="candidateForm.get('firstname').invalid &&  candidateForm.get('firstname').touched"
+          class="text-danger">Enter the valid input</small>
+      </div>
+
+      <div class="col-md-4">
+        <label for="middleName" style="font:bold;">Middle Name</label>
+        <input type="text" id="middleName" name="middleName" placeholder="middleName" formControlName="middleName"
+          required
+          [ngClass]="{error:candidateForm.value.middleName.length<3,errors:candidateForm.value.middleName.length>3}">
+        <small *ngIf="candidateForm.get('middleName').invalid && candidateForm.get('middleName').touched"
+          class="text-danger">Enter the valid Input </small>
+      </div>
+
+      <div class="col-md-4">
+        <label for="lname">Last Name</label>
+        <input type="text" id="lname" name="lname" placeholder="lastname" formControlName="lastname"
+          [ngClass]="{error:candidateForm.value.lastname.length<3,errors:candidateForm.value.lastname.length>3}">
+        <small *ngIf="candidateForm.get('lastname').invalid && candidateForm.get('lastname').touched"
+          class="text-danger">Enter the valid Input </small><br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="gender"> Gender: </label>&nbsp;
+        <input type="text" id="Gender" name="Gender" formControlName="gender" value="male"
+          [ngClass]="{error:candidateForm.value.gender.length<4,errors:candidateForm.value.gender.length>3}"> <br><br>
+      </div>
+
+      <div class="col-md-2">
+        <label for="DOB">Date Of Birth:</label>&nbsp;
+        <input type="date" id="DOB" name="DOB" formControlName="dateOfBirth"
+          [ngClass]="{error:candidateForm.value.dateOfBirth.length<3,errors:candidateForm.value.dateOfBirth.length>3}">
+        <br><br>
+      </div>
+
+
+      <div class="col-md-2">
+        <label for="Age">Age: </label>&nbsp;
+        <input type="number" min="18" max="25" id="Age" name="Age" formControlName="age"
+          [ngClass]="{error:candidateForm.value.age.length<1,errors:candidateForm.value.age.length>0}"> <br><br>
+      </div>
+
+
+      <div class="col-md-4">
+        <label for="address">Address :</label>
+        <input type="text" id="address" name="address" formControlName="address"
+          [ngClass]="{error:candidateForm.value.address.length<3,errors:candidateForm.value.address.length>3}">
+        <small *ngIf="candidateForm.get('address').invalid && candidateForm.get('address').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+      <!-- <small *ngIf="candidateForm.get('address').invalid &&  candidateForm.get('address').touched" class="text-danger"> Enter the valid input</small>  -->
+
+
+
+      <div class="col-md-4" [hidden]="!displayCountry" >
+        <label for="country"  style="font:bold;">Select Your Country :</label>      
+        <select name="country" id="country" type="text" name="country" formControlName="country" (change)="populateState($event)">
+        <option >Select your Country</option>
+        <option *ngFor="let country of dropDownCountry" [ngValue]=country>{{country.name}}</option>
+        </select>
+
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+      
+       
+      <div class="col-md-4" [hidden]="displayCountry" >
+        <label for="country"  style="font:bold;">Select Your Country :</label>      
+        <select name="country" id="country" type="text" name="country" formControlName="country">
+        <option >Select your Country</option>
+        <option *ngFor="let country of dropDownCountry" [ngValue]=country>{{country.name}}</option>
+        </select>
+
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+
+
+      <div class="col-md-4" [hidden]="!displayState">
+        <label for="State"  style="font:bold;">Select Your State  :</label>      
+        <select name="State" id="State" type="text" name="State" formControlName="State" (change)="populateCity($event)"
+        [ngClass]="{error:candidateForm.value.State ,errors:candidateForm.value.State}">
+          <option >Select your State</option>
+          <option  *ngFor="let s of dropDownState" [ngValue]=s> {{s.sname}}</option><br><br>
+        </select>
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+        
+      <div class="col-md-4" [hidden]="displayState">
+        <label for="State"  style="font:bold;">Select Your State  :</label>      
+        <select name="State" id="State" type="text" name="State" formControlName="State" (Click)="forCountry($event)"
+        [ngClass]="{error:candidateForm.value.State ,errors:candidateForm.value.State}">
+          <option >Select your State</option>
+          <option  *ngFor="let s of dropDownState" [ngValue]=s> {{s.sname}}</option><br><br>
+        </select>
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+
+      
+
+
+    
+
+      <div class="col-md-4" [hidden]="displayCity">
+        <label for="City"  style="font:bold;">Select Your City:</label>      
+        <select name="City" id="City" type="text"name="City" formControlName="City"
+        [ngClass]="{error:candidateForm.value.City ,errors:candidateForm.value.City}">
+        <option >Select your City</option>
+        <option  *ngFor="let c of dropDownCity" [ngValue]=c>{{c.cname}}</option>   <br><br >
+        </select>
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div> 
+
+      <div class="col-md-4" [hidden]="!displayCity" >
+        <label for="City"  style="font:bold;">Select Your City1:</label>      
+        <select name="City" id="City" type="text"name="City" formControlName="City" (Click)="forState($event)"
+        [ngClass]="{error:candidateForm.value.City ,errors:candidateForm.value.City}">
+        <option >Select your City</option>
+        <option  *ngFor="let c of dropDownCity" [ngValue]=c>{{c.cname}}</option>   <br><br >
+
+        </select>
+        <small *ngIf="candidateForm.get('country').invalid && candidateForm.get('country').touched"
+          class="text-danger">Enter the valid input</small> <br><br>
+      </div>
+
+
+
+      <div class="col-md-4">
+        <label for=" Email">Email :</label>
+        <input type="text" id="Email" name="Email" formControlName="Email"
+          [ngClass]="{error:candidateForm.value.Email.length<10,errors:candidateForm.value.Email.length>10}"> <br>
+        <small *ngIf="candidateForm.get('Email').invalid && candidateForm.get('Email').touched"
+          class="text-danger">Incorrect Credentials </small> <br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="institution"> Institution</label>
+        <input type="text" id="institution" name="institution" placeholder="institution" formControlName="institution"
+          [ngClass]="{error:candidateForm.value.institution.length<3,errors:candidateForm.value.institution.length>3}">
+        <small *ngIf="candidateForm.get('institution').invalid && candidateForm.get('institution').touched"
+          class="text-danger">Enter the valid Input </small><br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="course"> Course </label>
+        <input type="text" id="course" name="course" placeholder="course" formControlName="course"
+          [ngClass]="{error:candidateForm.value.course.length<3,errors:candidateForm.value.course.length>3}">
+        <small *ngIf="candidateForm.get('course').invalid && candidateForm.get('course').touched"
+          class="text-danger">Enter the valid Input </small><br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="yearOfPassing"> YearOfPassing </label>
+        <input type="text" id="yearOfPassing" name="yearOfPassing" placeholder="yearOfPassing"
+          formControlName="yearOfPassing"
+          [ngClass]="{error:candidateForm.value.yearOfPassing.length<3,errors:candidateForm.value.yearOfPassing.length>3}">
+        <small *ngIf="candidateForm.get('yearOfPassing').invalid && candidateForm.get('yearOfPassing').touched"
+          class="text-danger">Enter the valid Input </small><br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="cgpa">CGPA</label>
+        <input type="text" id="cgpa" name="cgpa" placeholder="cgpa" formControlName="cgpa"
+          [ngClass]="{error:candidateForm.value.cgpa.length<1,errors:candidateForm.value.cgpa.length>1}">
+        <small *ngIf="candidateForm.get('cgpa').invalid && candidateForm.get('cgpa').touched" class="text-danger">Enter
+          the valid Input </small><br><br>
+      </div>
+
+      <div class="col-md-4">
+        <label for="degree">Degree</label>
+        <input type="text" id="degree" name="degree" placeholder="degree" formControlName="degree"
+          [ngClass]="{error:candidateForm.value.degree.length<3,errors:candidateForm.value.degree.length>3}">
+        <small *ngIf="candidateForm.get('degree').invalid && candidateForm.get('degree').touched"
+          class="text-danger">Enter the valid Input </small><br><br>
+      </div>
+
+      <!-- <div>
+        <input style="text-align:center; color:green;" type="submit" value="ADD" (click)="add()"
+          [disabled]="this.candidateForm.invalid">&nbsp;
+        <button (click)="reset()" style="color: red;">CLEAR</button>
+      </div> -->
+
+      <div>
+        <input type="submit" value="ADD" (click)="add()">&nbsp;
+        <button (click)="reset() ">CLEAR</button>
+      </div>
+
+    </div>
+  </form>
+
+
+
+
+<div [hidden]="!submit" >
+  <h2>EMPLOYEE TABLE</h2>
+  <table style="padding: 6px; margin: 10px;">
+    <tr>
+      <th>ID</th>
+      <th>NAME</th>
+      <th>GENDER</th>
+      <th>DOB</th>
+      <th>AGE</th>
+      <th>ADDRESS</th>
+      <th>COUNTRY</th>
+      <th>STATE</th>
+      <th>CITY</th>
+      <th>Email</th>
+      <th colspan="2" style="text-align: center;">ACTION</th>
+    </tr>
+    <tr *ngFor="let emp of empArray ; let i=index;">
+      <td>{{emp.id}}</td>
+      <td>{{ emp.firstname}} {{emp.middleName}}
+     {{emp.lastname}}</td>
+      <td>{{emp.gender}}</td>
+      <td>{{emp.dateOfBirth}}</td>
+      <td>{{emp.age}}</td>
+      <td>{{emp.address}}</td>
+      <td>{{emp.country.name}}</td>
+      <td>{{emp.State.name}}</td>
+      <td>{{emp.City.name}}</td>
+      <td>{{emp.Email}}</td>
+      <td><Button (click)="deleteRecord(i)" style="background-color:red;" class="text-success">Remove</Button></td>
+      <td><Button (click)="details(i)" style="background-color: green;" class="text-danger">Details</Button></td>
+    </tr>
+  </table>
+</div>
+
+<div *ngIf="show && selectedIndex>=0">
+  <h2>EDUCATIONAL DETAILS</h2>
+  <table style="padding: 8px; margin: 10px;">
+    <tr>
+      <th> INSTITUTION </th>
+      <th>COURSE</th>
+      <th>YEAR OF PASSING</th>
+      <th>CGPA</th>
+      <th>DEGREE</th>
+    </tr>
+
+    <tr>
+      <td>{{ empArray[selectedIndex]?.institution}}</td>
+      <td>{{ empArray[selectedIndex]?.course}}</td>
+      <td>{{ empArray[selectedIndex]?.yearOfPassing}}</td>
+      <td>{{ empArray[selectedIndex]?.cgpa}}</td>
+      <td>{{ empArray[selectedIndex]?.degree}}</td>
+  </table>
+</div>
+</div>
+
